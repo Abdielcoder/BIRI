@@ -44,6 +44,7 @@ $id=$_SESSION['id'];
   <link
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
 
 </head>
 
@@ -356,7 +357,7 @@ $id=$_SESSION['id'];
         </div>
 
         <ul class="project-list">
-<?php 
+        <?php 
 $sentencia = $connect->prepare("SELECT * FROM tarea ORDER BY idtarea DESC;");
  $sentencia->execute();
 $data =  array();
@@ -368,17 +369,19 @@ if($sentencia){
      ?>
      <?php if(count($data)>0):?>
       <?php foreach($data as $d):?>
-          <li class="project-item">
-            <div class="card project-card">
-
-              <button class="card-menu-btn icon-box" aria-label="More" data-menu-btn>
-                <span class="material-symbols-rounded  icon">more_horiz</span>
-              </button>
-
-              <ul class="ctx-menu">
-<?php 
+        
+         <?php 
                 if ($d->state ==0) {
-                  echo '<a href="tel:'.$d->celu.'">
+                  echo '
+                  <li class="project-item">
+                  <div class="card project-card">
+      
+                    <button class="card-menu-btn icon-box" aria-label="More" data-menu-btn>
+                      <span class="material-symbols-rounded  icon">more_horiz</span>
+                    </button>
+      
+                    <ul class="ctx-menu">
+                  <a href="tel:'.$d->celu.'">
                 <li class="ctx-item">
                   <button class="ctx-menu-btn red icon-box">
                     <span class="material-symbols-rounded  icon" aria-hidden="true">smartphone</span>
@@ -387,7 +390,7 @@ if($sentencia){
                   </button>
                 </li>
                 </a>
-                <a href="attend.php?id='.$d->idtarea.'">
+                <a href="../tareas/attend.php?id='.$d->idtarea.'">
                 <li class="ctx-item">
                   <button class="ctx-menu-btn red icon-box">
                     <span class="material-symbols-rounded  icon" aria-hidden="true">gpp_maybe</span>
@@ -396,39 +399,37 @@ if($sentencia){
                   </button>
                 </li>
                 </a>
-                ';
-                } elseif ($d->state ==1) {
-                  echo '<li class="divider"></li>
-                <a href="view.php?id='.$d->idtarea.'">
-                <li class="ctx-item">
-                  <button class="ctx-menu-btn  icon-box">
-                    <span class="material-symbols-rounded  icon" aria-hidden="true">check</span>
+                </ul>';
+                echo '<time class="card-date" datetime="2022-04-09">' . $d->dia . '</time> <h3 class="card-title">';
 
-                    <span class="ctx-menu-text">Ver</span>
-                  </button>
-                </li>
-                </a>';
+                echo '<a href="../tareas/view.php?id=' . $d->idtarea . '">' . $d->nomcas . '</a></h3>';
+
+                } elseif ($d->state ==1) {
+                //   echo '<li class="divider"></li>
+                // <a href="../tareas/view.php?id='.$d->idtarea.'">
+                // <li class="ctx-item">
+                //   <button class="ctx-menu-btn  icon-box">
+                //     <span class="material-symbols-rounded  icon" aria-hidden="true">check</span>
+
+                //     <span class="ctx-menu-text">Ver</span>
+                //   </button>
+                // </li>
+                // </a>';
                 }
                ?>
-              </ul>
-
-              <time class="card-date" datetime="2022-04-09"><?php echo $d->dia ?></time>
-
-              <h3 class="card-title">
-                <a href="view.php?id=<?php echo $d->idtarea ?>"><?php echo $d->nomcas ?></a>
-              </h3>
-
+             
+             
               <?php 
                 if ($d->state ==0) {
                   echo '<div class="card-badge orange">Pendiente</div>';
                 } elseif ($d->state ==1) {
-                  echo '<div class="card-badge green">Atendido</div>';
+                  // echo '<div class="card-badge green">Atendido</div>';
                 }
                ?>
-
+<!-- 
               <p class="card-text">
                 <?php echo $d->sitio ?>
-              </p>
+              </p> -->
             </div>
           </li>
 <?php endforeach; ?>
@@ -443,6 +444,61 @@ if($sentencia){
 
       </section>
 
+      <table id="miTabla" class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th class="text-center">Levanto</th>
+            <th class="text-center">Atendio</th>
+            <th class="text-center">Incidencia</th>
+            <th class="text-center">Departamento</th>
+            <th class="text-center">Estado</th>
+            <th class="text-center">Fecha Inicio</th>
+            <th class="text-center">Fecha Fin</th>
+            <!-- <th class="text-center">Contraseña</th> -->
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        // Datos de conexión a la base de datos
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "incidencias";
+
+        // Crear una conexión a la base de datos
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        // Verificar la conexión
+        if ($conn->connect_error) {
+            die("Conexión fallida: " . $conn->connect_error);
+        }
+
+        // Consulta para obtener los datos de la tabla "tareas"
+        $sql = "SELECT * FROM tarea";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            // Mostrar datos de cada fila
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . $row["nomcl"] . "</td>";
+                echo "<td>" . $row["apecl"] . "</td>";
+                echo "<td>" . $row["nomcas"] . "</td>";
+                echo "<td>" . $row["sitio"] . "</td>";
+                echo "<td>" . $row["state"] . "</td>";
+                echo "<td>" . $row["dia"] . "</td>";
+                echo "<td>" . $row["fere"] . "</td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='8'>No hay tareas disponibles.</td></tr>";
+        }
+
+        // Cerrar la conexión
+        $conn->close();
+        ?>
+    </tbody>
+</table>
     </article>
   </main>
 
@@ -469,3 +525,12 @@ if($sentencia){
 <?php }else{ 
     header('Location: ../login.php');
  } ?>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#miTabla').DataTable();
+        });
+    </script>
+<script>

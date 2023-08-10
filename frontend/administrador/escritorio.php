@@ -354,14 +354,9 @@
         </div>
 
       </section>
-
-
-
-
       <!-- 
         - #PROJECTS
       -->
-
       <section class="projects">
 
         <div class="section-title-wrapper">
@@ -388,8 +383,7 @@ if($sentencia){
      <?php if(count($data)>0):?>
       <?php foreach($data as $d):?>
         
-         
-<?php 
+         <?php 
                 if ($d->state ==0) {
                   echo '
                   <li class="project-item">
