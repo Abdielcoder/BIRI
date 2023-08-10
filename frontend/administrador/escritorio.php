@@ -267,6 +267,12 @@
                     $result = $connect->query($sql); //$pdo sería el objeto conexión
                     $total = $result->fetchColumn();
 
+                    $sql2 = "SELECT COUNT(*) total FROM tarea WHERE state = 1";
+                    $result2 = $connect->query($sql2); //$pdo sería el objeto conexión
+                    $total2 = $result2->fetchColumn();
+                    $sumaTotales = $total+$total2;
+                    $porcentajeAtencion = $total*100/$sumaTotales;
+                    $porcentajePendiente = $total2*100/$sumaTotales
               ?>
               <data class="card-data" value="<?php echo  $total; ?>"><?php echo  $total; ?></data>
 
@@ -320,7 +326,7 @@
     $total = $result->fetchColumn();
 
 ?>
-                <data class="revenue-item-data" value="<?php echo  $total; ?>"><?php echo  $total; ?>%</data>
+                <data class="revenue-item-data" value="<?php echo  $porcentajePendiente; ?>"><?php echo  $porcentajePendiente; ?>%</data>
 
                 <p class="revenue-item-text">Atendidas</p>
               </div>
@@ -338,7 +344,7 @@
     $total = $result->fetchColumn();
 
 ?>
-                <data class="revenue-item-data" value="<?php echo  $total; ?>"><?php echo  $total; ?>%</data>
+                <data class="revenue-item-data" value="<?php echo  $porcentajeAtencion; ?>"><?php echo  $porcentajeAtencion; ?>%</data>
 
                 <p class="revenue-item-text">Pendientes</p>
               </div>
