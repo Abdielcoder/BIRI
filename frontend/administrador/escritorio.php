@@ -11,16 +11,12 @@
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sistema Bitacora Rino</title>
 
-  <!-- 
-    - favicon
-  -->
   <link rel="shortcut icon" href="../../backend/img/ae.png" type="image/png">
 
   <!-- 
@@ -489,7 +485,6 @@ if($sentencia){
         // Consulta para obtener los datos de la tabla "tareas"
         $sql = "SELECT * FROM tarea";
         $result = $conn->query($sql);
-
         if ($result->num_rows > 0) {
             // Mostrar datos de cada fila
             while ($row = $result->fetch_assoc()) {
@@ -498,7 +493,8 @@ if($sentencia){
                 echo "<td>" . $row["apecl"] . "</td>";
                 echo "<td>" . $row["nomcas"] . "</td>";
                 echo "<td>" . $row["sitio"] . "</td>";
-                echo "<td>" . $row["state"] . "</td>";
+                if($row["state"] == 0){ echo "<td style='color: red'> PENDIENTE</td>";}
+                else{ echo "<td style='color: green'>FINALIZADO</td>";};
                 echo "<td>" . $row["dia"] . "</td>";
                 echo "<td>" . $row["fere"] . "</td>";
                 echo "</tr>";
@@ -526,7 +522,7 @@ if($sentencia){
     
 
       <p class="copyright">
-        &copy; 2022 <a href="#" class="copyright-link">Un programador más</a>. Todos los derechos reservados
+        &copy; <?php echo date("Y"); ?> <a href="#" class="copyright-link">Rino risk</a>. Todos los derechos reservados
       </p>
 
     </div>

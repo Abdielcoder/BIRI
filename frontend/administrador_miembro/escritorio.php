@@ -485,7 +485,8 @@ if($sentencia){
                 echo "<td>" . $row["apecl"] . "</td>";
                 echo "<td>" . $row["nomcas"] . "</td>";
                 echo "<td>" . $row["sitio"] . "</td>";
-                echo "<td>" . $row["state"] . "</td>";
+                if($row["state"] == 0){ echo "<td style='color: red'> PENDIENTE</td>";}
+                else{ echo "<td style='color: green'>FINALIZADO</td>";};
                 echo "<td>" . $row["dia"] . "</td>";
                 echo "<td>" . $row["fere"] . "</td>";
                 echo "</tr>";
@@ -508,7 +509,7 @@ if($sentencia){
     
 
       <p class="copyright">
-        &copy; 2022 <a href="#" class="copyright-link">Un programador más</a>. Todos los derechos reservados
+        &copy; <?php echo date("Y"); ?> <a href="#" class="copyright-link">Rino Risk</a>. Todos los derechos reservados
       </p>
 
     </div>

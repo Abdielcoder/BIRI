@@ -43,6 +43,11 @@
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     rel="stylesheet" />
 
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -143,8 +148,12 @@
   </header>
 
   <main>
+    
     <article class="container article">
-
+    <div class="section-title-wrapper">
+    
+    <button class="btn-group" style="cursor: pointer;" data-toggle="modal" data-target="#myModal">Nueva incidencia</button>
+</div>
       <h2 class="h2 article-title">Hola <?php echo $_SESSION['nombre']; ?></h2>
 
       <p class="article-subtitle">Bienvenido a nuestro sistema</p>
@@ -360,7 +369,7 @@
 
       <section class="projects">
 
-        <div class="section-title-wrapper">
+        <!-- <div class="section-title-wrapper">
           <h2 class="section-title">Tareas recientes</h2>
         </div>
 
@@ -453,7 +462,7 @@ if($sentencia){
     </div>
     <?php endif; ?>
 
-        </ul>
+        </ul> -->
 
       </section>
     </article>
@@ -467,7 +476,7 @@ if($sentencia){
     <div class="container">
 
       <p class="copyright">
-        &copy; 2022 <a href="#" class="copyright-link">Un programador más</a>.Todos los derechos reservados
+        &copy; <?php echo date("Y"); ?> <a href="#" class="copyright-link">Rino Risk</a>.Todos los derechos reservados
       </p>
 
     </div>
@@ -484,3 +493,98 @@ if($sentencia){
 <?php }else{ 
     header('Location: ../login.php');
  } ?>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Nueva Incidencia</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            <form action="insertar_tarea.php" method="POST">
+    <label for="reporta">Nombre1:</label>
+    <input type="text" class="form-control" id="reporta" name="reporta" value="<?php echo $_SESSION['nombre']; ?>">
+    
+    <div class="form-group">
+        <label for="atiende">Asignación:</label>
+        <select class="form-control" id="atiende" name="atiende">
+            <option value="Sofia Gallardo">Sofia Gallardo</option>
+            <option value="Rosario Banda">Rosario Banda</option>
+            <option value="Abdiel Carrasco">Abdiel Carrasco</option>
+            <option value="Berenice Hernades">Berenice Hernades</option>
+            <option value="Daniel Bravo">Daniel Bravo</option>
+            <option value="Jesus de Luna">Jesus de Luna</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="departamentos">Departamentos:</label>
+        <select class="form-control" id="departamentos" name="departamentos">
+            <option value="Administracion">Administración</option>
+            <option value="Comercial">Comercial</option>
+            <option value="Desarrollo">Desarrollo</option>
+            <option value="Recursos Humanos">Recursos Humanos</option>
+            <option value="Servicio agentes">Servicio agentes</option>
+            <option value="Servicio asegurados">Servicio asegurados</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="observaciones">Incidencia:</label>
+        <textarea class="form-control" id="observaciones" name="observaciones" rows="3"></textarea>
+    </div>
+    
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+</form>
+<div class="modal fade" id="modalExito" tabindex="-1" role="dialog" aria-labelledby="modalExitoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalExitoLabel">¡Éxito en la inserción!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Los datos se han insertado correctamente.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $("#insertForm").submit(function(e) {
+            e.preventDefault();
+            
+            $.ajax({
+                type: "POST",
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function(response) {
+                    $('#modalExito').modal('show');
+                },
+                error: function() {
+                    alert('Error al insertar los datos.');
+                }
+            });
+        });
+    });
+</script>
+
+
+            </div>
+           
+        </div>
+    </div>
+</div>
+

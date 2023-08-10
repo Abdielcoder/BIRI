@@ -422,7 +422,7 @@ if($sentencia){
     <div class="container">
 
       <p class="copyright">
-        &copy; 2022 <a href="#" class="copyright-link">Un programador más</a>. Todos los derechos reservados
+        &copy; <?php echo date("Y"); ?> <a href="#" class="copyright-link">Rino Risk</a>. Todos los derechos reservados
       </p>
 
     </div>
