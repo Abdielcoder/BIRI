@@ -48,6 +48,8 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+
 </head>
 
 <body>
@@ -156,316 +158,61 @@
 </div>
       <h2 class="h2 article-title">Hola <?php echo $_SESSION['nombre']; ?></h2>
 
-      <p class="article-subtitle">Bienvenido a nuestro sistema</p>
-
-      <!-- 
-        - #HOME
-      -->
-
-      <section class="home">
-
-        <div class="card profile-card">
-          <div class="profile-card-wrapper">
-
-            <figure class="card-avatar">
-              <img src="../../backend/img/reere.png" alt="admin" width="48" height="48">
-            </figure>
-
-            <div>
-              <p class="card-title"><?php echo $_SESSION['nombre']; ?></p>
-
-              <?php 
-                    if ($_SESSION['rol']= '1') {
-                      echo ' <p class="card-subtitle">Administrador</p>';  
-                    } else {
-                        echo '<p class="card-subtitle">Cliente</p>';
-                    }
-               ?>
-              
-            </div>
-
-          </div>
-
-          <ul class="contact-list">
-
-            <li>
-              <a href="#" class="contact-link icon-box">
-                <span class="material-symbols-rounded  icon">mail</span>
-
-                <p class="text"><?php echo $_SESSION['correo']; ?></p>
-              </a>
-            </li>
-
-            <li>
-              <a href="#" class="contact-link icon-box">
-                <span class="material-symbols-rounded  icon">person</span>
-
-                <p class="text"><?php echo $_SESSION['username']; ?></p>
-              </a>
-            </li>
-
-            <li>
-              <a href="#" class="contact-link icon-box">
-                <span class="material-symbols-rounded  icon">badge</span>
-
-                <p class="text"><?php echo $_SESSION['nombre']; ?></p>
-              </a>
-            </li>
-
-
-            <li>
-              <a href="#" class="contact-link icon-box">
-                <span class="material-symbols-rounded  icon">tenancy</span>
-
-                <?php 
-                    if ($_SESSION['rol']= '1') {
-                      echo ' <p class="card-subtitle">Administrador</p>';  
-                    } else {
-                        echo '<p class="card-subtitle">Cliente</p>';
-                    }
-               ?>
-              </a>
-            </li>
-
-            <li>
-              <a href="#" class="contact-link icon-box">
-                <span class="material-symbols-rounded  icon">scatter_plot</span>
-
-                <?php 
-                    if ($_SESSION['state']= '1') {
-                      echo ' <p class="card-subtitle">Activo</p>';  
-                    } else {
-                        echo '<p class="card-subtitle">Inactivo</p>';
-                    }
-               ?>
-              </a>
-            </li>
-
-          </ul>
-        </div>
-
-        <div class="card-wrapper">
-
-          <div class="card task-card">
-
-            <div class="card-icon icon-box green">
-              <span class="material-symbols-rounded  icon">task_alt</span>
-            </div>
-
-            <div>
-              <?php 
-                  require_once('../../backend/config/Conexion.php');
-                    $sql = "SELECT COUNT(*) total FROM tarea WHERE state = 1";
-                    $result = $connect->query($sql); //$pdo sería el objeto conexión
-                    $total = $result->fetchColumn();
-
-              ?>
-              <data class="card-data" value="<?php echo  $total; ?>"><?php echo  $total; ?></data>
-
-              <p class="card-text">Tareas atendidas</p>
-            </div>
-
-          </div>
-
-          <div class="card task-card">
-
-            <div class="card-icon icon-box red">
-              <span class="material-symbols-rounded  icon">sort</span>
-            </div>
-
-            <div>
-              <?php 
-                
-                    $sql = "SELECT COUNT(*) total FROM tarea WHERE state = 0";
-                    $result = $connect->query($sql); //$pdo sería el objeto conexión
-                    $total = $result->fetchColumn();
-
-              ?>
-              <data class="card-data" value="<?php echo  $total; ?>"><?php echo  $total; ?></data>
-
-              <p class="card-text">Tareas pendientes</p>
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="card revenue-card">
-
-          <button class="card-menu-btn icon-box" aria-label="More" data-menu-btn>
-            <span class="material-symbols-rounded  icon">more_horiz</span>
-          </button>
-
-          <ul class="ctx-menu">
-            <li class="ctx-item">
-              <button class="ctx-menu-btn icon-box">
-                <span class="material-symbols-rounded  icon" aria-hidden="true">cached</span>
-
-                <span class="ctx-menu-text">Refresh</span>
-              </button>
-            </li>
-
-          </ul>
-
-          <p class="card-title">Tareas</p>
-<?php      
-      $sql = "SELECT COUNT(*) total FROM tarea";
-      $result = $connect->query($sql); //$pdo sería el objeto conexión
-      $total = $result->fetchColumn();
-?>
-
-          <data class="card-price" value="<?php echo  $total; ?>"><?php echo  $total; ?></data>
-
-          <p class="card-text">Last Week</p>
-
-          <div class="divider card-divider"></div>
-
-          <ul class="revenue-list">
-
-            <li class="revenue-item icon-box">
-
-              <span class="material-symbols-rounded  icon  green">trending_up</span>
-
-              <div>
-                <?php           
-    $sql = "SELECT COUNT(*) total FROM tarea WHERE state = 1";
-    $result = $connect->query($sql); //$pdo sería el objeto conexión
-    $total = $result->fetchColumn();
-
-?>
-                <data class="revenue-item-data" value="<?php echo  $total; ?>"><?php echo  $total; ?>%</data>
-
-                <p class="revenue-item-text">Atendidas</p>
-              </div>
-
-            </li>
-
-            <li class="revenue-item icon-box">
-
-              <span class="material-symbols-rounded  icon  red">trending_down</span>
-
-              <div>
-                <?php           
-    $sql = "SELECT COUNT(*) total FROM tarea WHERE state = 0";
-    $result = $connect->query($sql); //$pdo sería el objeto conexión
-    $total = $result->fetchColumn();
-
-?>
-                <data class="revenue-item-data" value="<?php echo  $total; ?>"><?php echo  $total; ?>%</data>
-
-                <p class="revenue-item-text">Pendientes</p>
-              </div>
-
-            </li>
-
-          </ul>
-
-        </div>
-
-      </section>
-      <!-- 
-        - #PROJECTS
-      -->
-
-      <section class="projects">
-
-        <!-- <div class="section-title-wrapper">
-          <h2 class="section-title">Tareas recientes</h2>
-        </div>
-
-        <ul class="project-list">
-<?php 
-$sentencia = $connect->prepare("SELECT * FROM tarea ORDER BY idtarea DESC;");
- $sentencia->execute();
-$data =  array();
-if($sentencia){
-  while($r = $sentencia->fetchObject()){
-    $data[] = $r;
-  }
-}
-     ?>
-     <?php if(count($data)>0):?>
-      <?php foreach($data as $d):?>
-          <li class="project-item">
-            <div class="card project-card">
-
-              <button class="card-menu-btn icon-box" aria-label="More" data-menu-btn>
-                <span class="material-symbols-rounded  icon">more_horiz</span>
-              </button>
-
-              <ul class="ctx-menu">
-            
-                <?php 
-                if ($d->state ==0) {
-                  echo '<a href="tel:'.$d->celu.'">
-                <li class="ctx-item">
-                  <button class="ctx-menu-btn red icon-box">
-                    <span class="material-symbols-rounded  icon" aria-hidden="true">smartphone</span>
-
-                    <span class="ctx-menu-text">Llamar</span>
-                  </button>
-                </li>
-                </a>
-
-                <a href="../tareas/attend.php?id='.$d->idtarea.'">
-                <li class="ctx-item">
-                  <button class="ctx-menu-btn red icon-box">
-                    <span class="material-symbols-rounded  icon" aria-hidden="true">gpp_maybe</span>
-
-                    <span class="ctx-menu-text">Atender</span>
-                  </button>
-                </li>
-                </a>';
-                } elseif ($d->state ==1) {
-                  echo '<li class="divider"></li>
-                <a href="../tareas/view.php?id='.$d->idtarea.'">
-                <li class="ctx-item">
-                  <button class="ctx-menu-btn  icon-box">
-                    <span class="material-symbols-rounded  icon" aria-hidden="true">check</span>
-
-                    <span class="ctx-menu-text">Ver</span>
-                  </button>
-                </li>
-                </a>';
-                }
-               ?>
-
-                
-              </ul>
-
-              <time class="card-date" datetime="2022-04-09"><?php echo $d->dia ?></time>
-
-              <h3 class="card-title">
-                <a href="../tareas/view.php?id=<?php echo $d->idtarea ?>"><?php echo $d->nomcas ?></a>
-              </h3>
-
-              <?php 
-                if ($d->state ==0) {
-                  echo '<div class="card-badge orange">Pendiente</div>';
-                } elseif ($d->state ==1) {
-                  echo '<div class="card-badge green">Atendido</div>';
-                }
-               ?>
-
-              <p class="card-text">
-                <?php echo $d->sitio ?>
-              </p>
-
-             
-            </div>
-          </li>
-          <?php endforeach; ?>
-          <?php else:?>
-                           <div class="alert">
-      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-      <strong>Danger!</strong> No hay datos.
-    </div>
-    <?php endif; ?>
-
-        </ul> -->
-
-      </section>
-    </article>
+      <table id="miTabla" class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th class="text-center">Levanto</th>
+            <th class="text-center">Atendio</th>
+            <th class="text-center">Incidencia</th>
+            <th class="text-center">Departamento</th>
+            <th class="text-center">Estado</th>
+            <th class="text-center">Fecha Inicio</th>
+            <th class="text-center">Fecha Fin</th>
+            <!-- <th class="text-center">Contraseña</th> -->
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        // Datos de conexión a la base de datos
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "incidencias";
+
+        // Crear una conexión a la base de datos
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        // Verificar la conexión
+        if ($conn->connect_error) {
+            die("Conexión fallida: " . $conn->connect_error);
+        }
+
+        // Consulta para obtener los datos de la tabla "tareas"
+        $sql = "SELECT * FROM tarea";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            // Mostrar datos de cada fila
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . $row["nomcl"] . "</td>";
+                echo "<td>" . $row["apecl"] . "</td>";
+                echo "<td>" . $row["nomcas"] . "</td>";
+                echo "<td>" . $row["sitio"] . "</td>";
+                if($row["state"] == 0){ echo "<td style='color: red'> PENDIENTE</td>";}
+                else{ echo "<td style='color: green'>FINALIZADO</td>";};
+                echo "<td>" . $row["dia"] . "</td>";
+                echo "<td>" . $row["fere"] . "</td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='8'>No hay tareas disponibles.</td></tr>";
+        }
+
+        // Cerrar la conexión
+        $conn->close();
+        ?>
+    </tbody>
+</table>
   </main>
 
   <!-- 
@@ -588,3 +335,11 @@ if($sentencia){
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#miTabla').DataTable();
+        });
+    </script>
+<script>

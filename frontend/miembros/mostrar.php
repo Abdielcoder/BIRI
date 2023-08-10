@@ -147,7 +147,7 @@
 
       <h2 class="h2 article-title">Hola <?php echo $_SESSION['nombre']; ?></h2>
 
-      <p class="article-subtitle">Bienvenido a nuestro sistema</p>
+      <!-- <p class="article-subtitle">Bienvenido a nuestro sistema</p> -->
 
       <!-- 
         - #HOME
@@ -455,7 +455,7 @@ if($sentencia){
     
 
       <p class="copyright">
-        &copy; <?php echo date("Y"); ?> <a href="#" class="copyright-link">Rino Risk</a>.Todos los derechos reservados
+        &copy; <?php echo date("Y"); ?> <a href="#" class="copyright-link">Rino RISK</a>.Todos los derechos reservados
       </p>
 
     </div>

@@ -44,7 +44,7 @@ $id=$_SESSION['id'];
   <link
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     rel="stylesheet" />
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
 </head>
 
 <body>
@@ -242,6 +242,8 @@ $id=$_SESSION['id'];
 
           </div>
 
+
+
           <div class="card task-card">
 
             <div class="card-icon icon-box red">
@@ -259,6 +261,25 @@ $id=$_SESSION['id'];
               <data class="card-data" value="<?php echo  $total; ?>"><?php echo  $total; ?></data>
 
               <p class="card-text">Tareas pendientes</p>
+            </div>
+
+          </div>
+
+       <div>
+              <?php 
+                
+                    $sql = "SELECT COUNT(*) total FROM tarea WHERE state = 0";
+                    $result = $connect->query($sql); //$pdo sería el objeto conexión
+                    $total = $result->fetchColumn();
+
+                    $sql2 = "SELECT COUNT(*) total FROM tarea WHERE state = 1";
+                    $result2 = $connect->query($sql2); //$pdo sería el objeto conexión
+                    $total2 = $result2->fetchColumn();
+                    $sumaTotales = $total+$total2;
+                    $porcentajeAtencion = $total*100/$sumaTotales;
+                    $porcentajePendiente = $total2*100/$sumaTotales
+              ?>
+             
             </div>
 
           </div>
@@ -281,7 +302,7 @@ $id=$_SESSION['id'];
             </li>
 
           </ul>
-
+         
           <p class="card-title">Tareas</p>
 <?php      
       $sql = "SELECT COUNT(*) total FROM tarea";
@@ -308,7 +329,7 @@ $id=$_SESSION['id'];
     $total = $result->fetchColumn();
 
 ?>
-                <data class="revenue-item-data" value="<?php echo  $total; ?>"><?php echo  $total; ?>%</data>
+                <data class="revenue-item-data" value="<?php echo  $porcentajeAtencion; ?>"><?php echo  $porcentajeAtencion; ?>%</data>
 
                 <p class="revenue-item-text">Atendidas</p>
               </div>
@@ -326,7 +347,7 @@ $id=$_SESSION['id'];
     $total = $result->fetchColumn();
 
 ?>
-                <data class="revenue-item-data" value="<?php echo  $total; ?>"><?php echo  $total; ?>%</data>
+                <data class="revenue-item-data" value="<?php echo  $porcentajePendiente; ?>"><?php echo  $porcentajePendiente; ?>%</data>
 
                 <p class="revenue-item-text">Pendientes</p>
               </div>
@@ -437,10 +458,67 @@ if($sentencia){
         </ul>
 
       </section>
+      <table id="miTabla" class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th class="text-center">Levanto</th>
+            <th class="text-center">Atendio</th>
+            <th class="text-center">Incidencia</th>
+            <th class="text-center">Departamento</th>
+            <th class="text-center">Estado</th>
+            <th class="text-center">Fecha Inicio</th>
+            <th class="text-center">Fecha Fin</th>
+            <!-- <th class="text-center">Contraseña</th> -->
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        // Datos de conexión a la base de datos
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "incidencias";
 
+        // Crear una conexión a la base de datos
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        // Verificar la conexión
+        if ($conn->connect_error) {
+            die("Conexión fallida: " . $conn->connect_error);
+        }
+
+        // Consulta para obtener los datos de la tabla "tareas"
+        $sql = "SELECT * FROM tarea";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            // Mostrar datos de cada fila
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . $row["nomcl"] . "</td>";
+                echo "<td>" . $row["apecl"] . "</td>";
+                echo "<td>" . $row["nomcas"] . "</td>";
+                echo "<td>" . $row["sitio"] . "</td>";
+                if($row["state"] == 0){ echo "<td style='color: red'> PENDIENTE</td>";}
+                else{ echo "<td style='color: green'>FINALIZADO</td>";};
+                echo "<td>" . $row["dia"] . "</td>";
+                echo "<td>" . $row["fere"] . "</td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='8'>No hay tareas disponibles.</td></tr>";
+        }
+
+        // Cerrar la conexión
+        $conn->close();
+        ?>
+    </tbody>
+</table>
     </article>
+    
   </main>
 
+ 
   <footer class="footer">
     <div class="container">
 
@@ -464,3 +542,12 @@ if($sentencia){
 <?php }else{ 
     header('Location: ../login.php');
  } ?>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#miTabla').DataTable();
+        });
+    </script>
+<script>

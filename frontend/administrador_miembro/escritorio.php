@@ -45,7 +45,7 @@ $id=$_SESSION['id'];
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
 </head>
 
 <body>
@@ -264,6 +264,29 @@ $id=$_SESSION['id'];
 
           </div>
 
+     
+
+      
+
+            <div>
+              <?php 
+                
+                    $sql = "SELECT COUNT(*) total FROM tarea WHERE state = 0";
+                    $result = $connect->query($sql); //$pdo sería el objeto conexión
+                    $total = $result->fetchColumn();
+
+                    $sql2 = "SELECT COUNT(*) total FROM tarea WHERE state = 1";
+                    $result2 = $connect->query($sql2); //$pdo sería el objeto conexión
+                    $total2 = $result2->fetchColumn();
+                    $sumaTotales = $total+$total2;
+                    $porcentajeAtencion = $total*100/$sumaTotales;
+                    $porcentajePendiente = $total2*100/$sumaTotales
+              ?>
+             
+            </div>
+
+          </div>
+
         </div>
 
         <div class="card revenue-card">
@@ -282,7 +305,7 @@ $id=$_SESSION['id'];
             </li>
 
           </ul>
-
+         
           <p class="card-title">Tareas</p>
 <?php      
       $sql = "SELECT COUNT(*) total FROM tarea";
@@ -309,7 +332,7 @@ $id=$_SESSION['id'];
     $total = $result->fetchColumn();
 
 ?>
-                <data class="revenue-item-data" value="<?php echo  $total; ?>"><?php echo  $total; ?>%</data>
+                <data class="revenue-item-data" value="<?php echo  $porcentajePendiente; ?>"><?php echo  $porcentajePendiente; ?>%</data>
 
                 <p class="revenue-item-text">Atendidas</p>
               </div>
@@ -327,7 +350,7 @@ $id=$_SESSION['id'];
     $total = $result->fetchColumn();
 
 ?>
-                <data class="revenue-item-data" value="<?php echo  $total; ?>"><?php echo  $total; ?>%</data>
+                <data class="revenue-item-data" value="<?php echo  $porcentajeAtencion; ?>"><?php echo  $porcentajeAtencion; ?>%</data>
 
                 <p class="revenue-item-text">Pendientes</p>
               </div>
@@ -339,17 +362,15 @@ $id=$_SESSION['id'];
         </div>
 
       </section>
-
       <!-- 
         - #PROJECTS
       -->
-
-     <section class="projects">
+      <section class="projects">
 
         <div class="section-title-wrapper">
-          <h2 class="section-title">Tareas recientes</h2>
+          <h2 class="section-title">Tareas Pendientes</h2>
 
-          <button class="btn btn-link icon-box" onclick="location.href='tareas.php'">
+          <button class="btn btn-link icon-box" onclick="location.href='../tareas/mostrar.php'">
             <span>Ver todas</span>
 
             <span class="material-symbols-rounded  icon" aria-hidden="true">arrow_forward</span>
