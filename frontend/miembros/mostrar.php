@@ -114,7 +114,7 @@
               <a href="#" class="header-profile">
 
                 <figure class="profile-avatar">
-                  <img src="../../backend/img/reere.png" alt="Elizabeth Foster" width="32" height="32">
+                  <img src="../../backend/img/logorino.png" alt="Elizabeth Foster" width="32" height="32">
                 </figure>
 
                 <div>
