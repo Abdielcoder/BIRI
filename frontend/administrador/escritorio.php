@@ -469,6 +469,7 @@ if($sentencia){
             <th class="text-center">Estado</th>
             <th class="text-center">Fecha Inicio</th>
             <th class="text-center">Fecha Fin</th>
+            <th class="text-center">Tiempo atención</th>
             <!-- <th class="text-center">Contraseña</th> -->
         </tr>
     </thead>
@@ -503,10 +504,44 @@ if($sentencia){
               $fechaFin = $row["fere"]; // Tu fecha y hora en formato año-mes-día hora:minuto:segundo
               $timestampFin = strtotime($fechaFin);
               $fechaHoraFormateadaFinal = formatearFechaHora($timestampFin);
+            
+               
+              $timestamp1 = strtotime($fechaIncio);
+              $timestamp2 = strtotime($fechaFin);
+              
+              // Calcula la diferencia en segundos
+              $diferenciaSegundos = abs($timestamp2 - $timestamp1);
+
+              // Calcula los días
+              $dias = floor($diferenciaSegundos / (60 * 60 * 24));
+
+              // Calcula las horas
+              $horas = floor(($diferenciaSegundos - ($dias * 60 * 60 * 24)) / (60 * 60));
+
+              // Calcula los minutos
+              $minutos = floor(($diferenciaSegundos - ($dias * 60 * 60 * 24) - ($horas * 60 * 60)) / 60);
+
+              // Calcula los segundos
+              $segundos = $diferenciaSegundos - ($dias * 60 * 60 * 24) - ($horas * 60 * 60) - ($minutos * 60);
+
               if($fechaHoraFormateadaFinal == '01 de enero de 1970 01:00:00'){
                 $fechaHoraFormateadaFinal= '';
-              }
+                $tiempoTranscurrido =  "<td></td> ";
+                }else{
+                  if($horas<2){
+                    $tiempoTranscurrido = "<td style='background-color:green;color:white'>Días: $dias, Horas: $horas, Minutos: $minutos</td>";
 
+                  }
+                  if($horas==3){
+                    $tiempoTranscurrido = "<td style='background-color:yellow;color:black'>Días: $dias, Horas: $horas, Minutos: $minutos</td>";
+
+                  }
+                  if($horas>3){
+                    $tiempoTranscurrido = "<td style='background-color:red;color:white'>Días: $dias, Horas: $horas, Minutos: $minutos</td>";
+
+                  }
+
+                }
                 echo "<tr>";
                 echo "<td>" . $row["nomcl"] . "</td>";
                 echo "<td>" . $row["apecl"] . "</td>";
@@ -516,6 +551,7 @@ if($sentencia){
                 else{ echo "<td style='color: green'>FINALIZADO</td>";};
                 echo "<td>" . $fechaHoraFormateadaInicio . "</td>";
                 echo "<td>" . $fechaHoraFormateadaFinal . "</td>";
+                echo $tiempoTranscurrido;
                 echo "</tr>";
             }
         } else {
