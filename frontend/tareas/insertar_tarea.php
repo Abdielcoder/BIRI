@@ -18,6 +18,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
+date_default_timezone_set('America/Los_Angeles');
 
 $reporta = $_POST["reporta"];
 $atiende = $_POST["atiende"];
