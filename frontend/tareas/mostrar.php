@@ -227,7 +227,25 @@
               if($fechaHoraFormateadaFinal == '01 de enero de 1970 01:00:00'){
                 $fechaHoraFormateadaFinal= '';
                 $tiempoTranscurrido =  "<td></td> ";
+                $atenderIncidencia = '<td><a href="attend.php?id='.$row['idtarea'].'">
+                <li class="ctx-item">
+                  <button class="ctx-menu-btn red icon-box">
+                    <span class="material-symbols-rounded  icon" aria-hidden="true">gpp_maybe</span>
+
+                    <span class="ctx-menu-text">Atender</span>
+                  </button>
+                </li>
+                </a></td>';
                 }else{
+                  $atenderIncidencia = '<td style="text-aling:center;padding-left:30px">
+                <li class="ctx-item">
+                  <button class="ctx-menu-btn yellow icon-box">
+                    <span style="font-size:37px;text-aling:center;color:green;" class="material-symbols-rounded  icon" aria-hidden="true">done</span>
+
+                    
+                  </button>
+                </li>
+                </td>';
                   if($horas<2){
                     $tiempoTranscurrido = "<td style='background-color:green;color:white'>Días: $dias, Horas: $horas, Minutos: $minutos</td>";
 
@@ -252,16 +270,7 @@
                 echo "<td>" . $fechaHoraFormateadaInicio . "</td>";
                 echo "<td>" . $fechaHoraFormateadaFinal . "</td>";
                 echo $tiempoTranscurrido;
-                echo '<td><a href="attend.php?id='.$row["idtarea"].'">
-                <li class="ctx-item">
-                  <button class="ctx-menu-btn red icon-box">
-                    <span class="material-symbols-rounded  icon" aria-hidden="true">gpp_maybe</span>
-
-                    <span class="ctx-menu-text">Atender</span>
-                  </button>
-                </li>
-                </a></td>';
-                echo "</tr>";
+                echo $atenderIncidencia;
             }
         } else {
             echo "<tr><td colspan='8'>No hay tareas disponibles.</td></tr>";

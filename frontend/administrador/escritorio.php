@@ -324,7 +324,7 @@
                 $sql = "SELECT COUNT(*) total FROM tarea WHERE state = 1";
                 $result = $connect->query($sql); //$pdo sería el objeto conexión
                 $total = $result->fetchColumn();
-                $eliminarDecimalPendiente = number_format($porcentajeAtencion,2);
+                $eliminarDecimalPendiente = number_format($porcentajePendiente,2);
                 ?>
                 <data class="revenue-item-data" value="<?php echo  $eliminarDecimalPendiente; ?>"><?php echo  $eliminarDecimalPendiente; ?>%</data>
 
@@ -529,7 +529,25 @@ if($sentencia){
               if($fechaHoraFormateadaFinal == '01 de enero de 1970 01:00:00'){
                 $fechaHoraFormateadaFinal= '';
                 $tiempoTranscurrido =  "<td></td> ";
+                $atenderIncidencia = '<td><a href="../tareas/attend.php?id='.$d->idtarea.'">
+                <li class="ctx-item">
+                  <button class="ctx-menu-btn red icon-box">
+                    <span class="material-symbols-rounded  icon" aria-hidden="true">gpp_maybe</span>
+
+                    <span class="ctx-menu-text">Atender</span>
+                  </button>
+                </li>
+                </a></td>';
                 }else{
+                  $atenderIncidencia = '<td style="text-aling:center;padding-left:30px">
+                <li class="ctx-item">
+                  <button class="ctx-menu-btn yellow icon-box">
+                    <span style="font-size:37px;text-aling:center;color:green;" class="material-symbols-rounded  icon" aria-hidden="true">done</span>
+
+                    
+                  </button>
+                </li>
+                </td>';
                   if($horas<2){
                     $tiempoTranscurrido = "<td style='background-color:green;color:white'>Días: $dias, Horas: $horas, Minutos: $minutos</td>";
 
@@ -554,15 +572,7 @@ if($sentencia){
                 echo "<td>" . $fechaHoraFormateadaInicio . "</td>";
                 echo "<td>" . $fechaHoraFormateadaFinal . "</td>";
                 echo $tiempoTranscurrido;
-                echo '<td><a href="../tareas/attend.php?id='.$d->idtarea.'">
-                <li class="ctx-item">
-                  <button class="ctx-menu-btn red icon-box">
-                    <span class="material-symbols-rounded  icon" aria-hidden="true">gpp_maybe</span>
-
-                    <span class="ctx-menu-text">Atender</span>
-                  </button>
-                </li>
-                </a></td>';
+                echo $atenderIncidencia;
                 echo "</tr>";
             }
         } else {
