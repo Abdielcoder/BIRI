@@ -321,11 +321,11 @@
 
               <div>
                 <?php           
-    $sql = "SELECT COUNT(*) total FROM tarea WHERE state = 1";
-    $result = $connect->query($sql); //$pdo sería el objeto conexión
-    $total = $result->fetchColumn();
-    $eliminarDecimalPendiente = number_format($porcentajeAtencion,2);
-?>
+                $sql = "SELECT COUNT(*) total FROM tarea WHERE state = 1";
+                $result = $connect->query($sql); //$pdo sería el objeto conexión
+                $total = $result->fetchColumn();
+                $eliminarDecimalPendiente = number_format($porcentajeAtencion,2);
+                ?>
                 <data class="revenue-item-data" value="<?php echo  $eliminarDecimalPendiente; ?>"><?php echo  $eliminarDecimalPendiente; ?>%</data>
 
                 <p class="revenue-item-text">Atendidas</p>
@@ -339,11 +339,11 @@
 
               <div>
                 <?php           
-    $sql = "SELECT COUNT(*) total FROM tarea WHERE state = 0";
-    $result = $connect->query($sql); //$pdo sería el objeto conexión
-    $total = $result->fetchColumn();
-    $decimalesAtencion = number_format($porcentajeAtencion,2);
-?>
+                $sql = "SELECT COUNT(*) total FROM tarea WHERE state = 0";
+                $result = $connect->query($sql); //$pdo sería el objeto conexión
+                $total = $result->fetchColumn();
+                $decimalesAtencion = number_format($porcentajeAtencion,2);
+                  ?>
                 <data class="revenue-item-data" value="<?php echo  $decimalesAtencion; ?>"><?php echo  $decimalesAtencion; ?>%</data>
 
                 <p class="revenue-item-text">Pendientes</p>
@@ -436,7 +436,8 @@ if($sentencia){
              
               <?php 
                 if ($d->state ==0) {
-                  echo '<div class="card-badge orange">Pendiente</div>';
+                  echo '<div class="card-badge red">Estado: Pendiente</div>';
+                  echo '<div class="card-badge gray"> Asignado: ' . $d->apecl . '</div>';
                 } elseif ($d->state ==1) {
                   // echo '<div class="card-badge green">Atendido</div>';
                 }
@@ -470,6 +471,7 @@ if($sentencia){
             <th class="text-center">Fecha Inicio</th>
             <th class="text-center">Fecha Fin</th>
             <th class="text-center">Tiempo atención</th>
+            <th class="text-center">Atender</th>
             <!-- <th class="text-center">Contraseña</th> -->
         </tr>
     </thead>
@@ -552,6 +554,15 @@ if($sentencia){
                 echo "<td>" . $fechaHoraFormateadaInicio . "</td>";
                 echo "<td>" . $fechaHoraFormateadaFinal . "</td>";
                 echo $tiempoTranscurrido;
+                echo '<td><a href="../tareas/attend.php?id='.$d->idtarea.'">
+                <li class="ctx-item">
+                  <button class="ctx-menu-btn red icon-box">
+                    <span class="material-symbols-rounded  icon" aria-hidden="true">gpp_maybe</span>
+
+                    <span class="ctx-menu-text">Atender</span>
+                  </button>
+                </li>
+                </a></td>';
                 echo "</tr>";
             }
         } else {

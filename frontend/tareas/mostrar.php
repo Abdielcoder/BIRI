@@ -168,6 +168,8 @@
             <th class="text-center">Estado</th>
             <th class="text-center">Fecha Inicio</th>
             <th class="text-center">Fecha Fin</th>
+            <th class="text-center">Tiempo atención</th>
+            <th class="text-center">Atender</th>
             <!-- <th class="text-center">Contraseña</th> -->
         </tr>
     </thead>
@@ -192,7 +194,54 @@
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             // Mostrar datos de cada fila
+          
+          
             while ($row = $result->fetch_assoc()) {
+              $fechaIncio = $row["dia"]; // Tu fecha y hora en formato año-mes-día hora:minuto:segundo
+              $timestampInicio = strtotime($fechaIncio);
+              $fechaHoraFormateadaInicio = formatearFechaHora($timestampInicio);
+            
+              $fechaFin = $row["fere"]; // Tu fecha y hora en formato año-mes-día hora:minuto:segundo
+              $timestampFin = strtotime($fechaFin);
+              $fechaHoraFormateadaFinal = formatearFechaHora($timestampFin);
+            
+               
+              $timestamp1 = strtotime($fechaIncio);
+              $timestamp2 = strtotime($fechaFin);
+              
+              // Calcula la diferencia en segundos
+              $diferenciaSegundos = abs($timestamp2 - $timestamp1);
+
+              // Calcula los días
+              $dias = floor($diferenciaSegundos / (60 * 60 * 24));
+
+              // Calcula las horas
+              $horas = floor(($diferenciaSegundos - ($dias * 60 * 60 * 24)) / (60 * 60));
+
+              // Calcula los minutos
+              $minutos = floor(($diferenciaSegundos - ($dias * 60 * 60 * 24) - ($horas * 60 * 60)) / 60);
+
+              // Calcula los segundos
+              $segundos = $diferenciaSegundos - ($dias * 60 * 60 * 24) - ($horas * 60 * 60) - ($minutos * 60);
+
+              if($fechaHoraFormateadaFinal == '01 de enero de 1970 01:00:00'){
+                $fechaHoraFormateadaFinal= '';
+                $tiempoTranscurrido =  "<td></td> ";
+                }else{
+                  if($horas<2){
+                    $tiempoTranscurrido = "<td style='background-color:green;color:white'>Días: $dias, Horas: $horas, Minutos: $minutos</td>";
+
+                  }
+                  if($horas==3){
+                    $tiempoTranscurrido = "<td style='background-color:yellow;color:black'>Días: $dias, Horas: $horas, Minutos: $minutos</td>";
+
+                  }
+                  if($horas>3){
+                    $tiempoTranscurrido = "<td style='background-color:red;color:white'>Días: $dias, Horas: $horas, Minutos: $minutos</td>";
+
+                  }
+
+                }
                 echo "<tr>";
                 echo "<td>" . $row["nomcl"] . "</td>";
                 echo "<td>" . $row["apecl"] . "</td>";
@@ -200,8 +249,18 @@
                 echo "<td>" . $row["sitio"] . "</td>";
                 if($row["state"] == 0){ echo "<td style='color: red'> PENDIENTE</td>";}
                 else{ echo "<td style='color: green'>FINALIZADO</td>";};
-                echo "<td>" . $row["dia"] . "</td>";
-                echo "<td>" . $row["fere"] . "</td>";
+                echo "<td>" . $fechaHoraFormateadaInicio . "</td>";
+                echo "<td>" . $fechaHoraFormateadaFinal . "</td>";
+                echo $tiempoTranscurrido;
+                echo '<td><a href="attend.php?id='.$row["idtarea"].'">
+                <li class="ctx-item">
+                  <button class="ctx-menu-btn red icon-box">
+                    <span class="material-symbols-rounded  icon" aria-hidden="true">gpp_maybe</span>
+
+                    <span class="ctx-menu-text">Atender</span>
+                  </button>
+                </li>
+                </a></td>';
                 echo "</tr>";
             }
         } else {
@@ -343,3 +402,18 @@
         });
     </script>
 <script>
+
+  <?php 
+  function formatearFechaHora($timestamp) {
+    $meses = array(
+        1 => 'enero', 2 => 'febrero', 3 => 'marzo', 4 => 'abril', 5 => 'mayo', 6 => 'junio',
+        7 => 'julio', 8 => 'agosto', 9 => 'septiembre', 10 => 'octubre', 11 => 'noviembre', 12 => 'diciembre'
+    );
+
+    $dia = date('d', $timestamp);
+    $mes = $meses[date('n', $timestamp)];
+    $anio = date('Y', $timestamp);
+    $hora = date('H:i:s', $timestamp);
+
+    return "$dia de $mes de $anio $hora";
+}?>

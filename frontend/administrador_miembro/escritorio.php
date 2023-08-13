@@ -111,7 +111,7 @@ $id=$_SESSION['id'];
                     if ($_SESSION['rol']=='1') {
                       echo ' <p class="card-subtitle">Administrador</p>';  
                     } elseif ($_SESSION['rol']=='2') {
-                      echo ' <p class="card-subtitle">Miembro</p>';
+                      echo ' <p class="card-subtitle">Lider</p>';
                     } 
                ?>
                 </div>
@@ -130,7 +130,7 @@ $id=$_SESSION['id'];
   <main>
     <article class="container article">
 
-      <h2 class="h2 article-title">Hi <?php echo $_SESSION['nombre']; ?></h2>
+      <h2 class="h2 article-title">Hola <?php echo $_SESSION['nombre']; ?></h2>
 
       <!-- <p class="article-subtitle">Bienvenido a nuestro sistema</p> -->
 
@@ -154,7 +154,7 @@ $id=$_SESSION['id'];
                     if ($_SESSION['rol']=='1') {
                       echo ' <p class="card-subtitle">Administrador</p>';  
                     } elseif ($_SESSION['rol']=='2') {
-                      echo ' <p class="card-subtitle">Miembro</p>';
+                      echo ' <p class="card-subtitle">Lider</p>';
                     } 
                ?>
               
@@ -197,7 +197,7 @@ $id=$_SESSION['id'];
                     if ($_SESSION['rol']=='1') {
                       echo ' <p class="card-subtitle">Administrador</p>';  
                     } elseif ($_SESSION['rol']=='2') {
-                      echo ' <p class="card-subtitle">Miembro</p>';
+                      echo ' <p class="card-subtitle">Lider</p>';
                     } 
                ?>
               </a>
