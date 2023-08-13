@@ -324,9 +324,9 @@
     $sql = "SELECT COUNT(*) total FROM tarea WHERE state = 1";
     $result = $connect->query($sql); //$pdo sería el objeto conexión
     $total = $result->fetchColumn();
-
+    $eliminarDecimalPendiente = number_format($porcentajeAtencion,2);
 ?>
-                <data class="revenue-item-data" value="<?php echo  $porcentajePendiente; ?>"><?php echo  $porcentajePendiente; ?>%</data>
+                <data class="revenue-item-data" value="<?php echo  $eliminarDecimalPendiente; ?>"><?php echo  $eliminarDecimalPendiente; ?>%</data>
 
                 <p class="revenue-item-text">Atendidas</p>
               </div>
@@ -342,9 +342,9 @@
     $sql = "SELECT COUNT(*) total FROM tarea WHERE state = 0";
     $result = $connect->query($sql); //$pdo sería el objeto conexión
     $total = $result->fetchColumn();
-
+    $decimalesAtencion = number_format($porcentajeAtencion,2);
 ?>
-                <data class="revenue-item-data" value="<?php echo  $porcentajeAtencion; ?>"><?php echo  $porcentajeAtencion; ?>%</data>
+                <data class="revenue-item-data" value="<?php echo  $decimalesAtencion; ?>"><?php echo  $decimalesAtencion; ?>%</data>
 
                 <p class="revenue-item-text">Pendientes</p>
               </div>
