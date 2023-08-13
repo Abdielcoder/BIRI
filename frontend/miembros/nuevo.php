@@ -68,7 +68,7 @@
           <ul class="navbar-list">
 
             <li>
-              <a href="escritorio.php" class="navbar-link  icon-box">
+              <a href="../administrador/escritorio.php" class="navbar-link  icon-box">
                 <span class="material-symbols-rounded  icon">grid_view</span>
 
                 <span>Inicio</span>
@@ -398,6 +398,12 @@
 
     <label for="email"><b>Contraseña del miembro</b></label><span class="badge-warning">*</span>
     <input type="password" placeholder="ejm: ******" name="mencon"  required>
+    <label for="psw"><b>Seleccione Rol</b></label><span class="badge-warning">*</span>
+    <select required name="rol">
+        <option>Seleccione</option>
+        <option value="1">Administrador</option>
+        <option value="2">Lider</option>
+    </select>
     <hr>
    
     <button type="submit" name="add_member" class="registerbtn">Guardar</button>

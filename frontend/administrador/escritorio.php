@@ -396,15 +396,7 @@ if($sentencia){
                     </button>
       
                     <ul class="ctx-menu">
-                  <a href="tel:'.$d->celu.'">
-                <li class="ctx-item">
-                  <button class="ctx-menu-btn red icon-box">
-                    <span class="material-symbols-rounded  icon" aria-hidden="true">smartphone</span>
-
-                    <span class="ctx-menu-text">Llamar</span>
-                  </button>
-                </li>
-                </a>
+                  
                 <a href="../tareas/attend.php?id='.$d->idtarea.'">
                 <li class="ctx-item">
                   <button class="ctx-menu-btn red icon-box">
@@ -417,7 +409,7 @@ if($sentencia){
                 </ul>';
                 echo '<time class="card-date" datetime="2022-04-09">' . $d->dia . '</time> <h3 class="card-title">';
 
-                echo '<a href="../tareas/view.php?id=' . $d->idtarea . '">' . $d->nomcas . '</a></h3>';
+                echo '<a href="../tareas/attend.php?id=' . $d->idtarea . '">' . $d->nomcas . '</a></h3>';
 
                 } elseif ($d->state ==1) {
                 //   echo '<li class="divider"></li>

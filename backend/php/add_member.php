@@ -11,7 +11,7 @@ require_once('../../backend/config/Conexion.php');
     $username=trim($_POST['menusu']);
     $correo=trim($_POST['mencor']);
     $contra=MD5($_POST['mencon']);
-
+    $rol=trim($_POST['rol']);
 
     
    
@@ -44,7 +44,7 @@ swal("Error!", "Ya existe el registro a agregar!", "error").then(function() {
             {
                 if(!isset($errMSG))
   {
-$stmt = $connect->prepare("INSERT INTO miembros(nomenb,apmenb,sexo,celu,username,correo,contra,rol,state) VALUES(:nomenb,:apmenb,:sexo,:celu,:username,:correo,:contra,'2','1')");
+$stmt = $connect->prepare("INSERT INTO miembros(nomenb,apmenb,sexo,celu,username,correo,contra,rol,state) VALUES(:nomenb,:apmenb,:sexo,:celu,:username,:correo,:contra,:rol,'1')");
 $stmt->bindParam(':nomenb',$nomenb);
 $stmt->bindParam(':apmenb',$apmenb);
 $stmt->bindParam(':sexo',$sexo);
@@ -52,6 +52,7 @@ $stmt->bindParam(':celu',$celu);
 $stmt->bindParam(':username',$username);
 $stmt->bindParam(':correo',$correo);
 $stmt->bindParam(':contra',$contra);
+$stmt->bindParam(':rol',$rol);
 
 
 
