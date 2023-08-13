@@ -493,7 +493,20 @@ if($sentencia){
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             // Mostrar datos de cada fila
+          
+          
             while ($row = $result->fetch_assoc()) {
+              $fechaIncio = $row["dia"]; // Tu fecha y hora en formato año-mes-día hora:minuto:segundo
+              $timestampInicio = strtotime($fechaIncio);
+              $fechaHoraFormateadaInicio = formatearFechaHora($timestampInicio);
+            
+              $fechaFin = $row["fere"]; // Tu fecha y hora en formato año-mes-día hora:minuto:segundo
+              $timestampFin = strtotime($fechaFin);
+              $fechaHoraFormateadaFinal = formatearFechaHora($timestampFin);
+              if($fechaHoraFormateadaFinal == '01 de enero de 1970 01:00:00'){
+                $fechaHoraFormateadaFinal= '';
+              }
+
                 echo "<tr>";
                 echo "<td>" . $row["nomcl"] . "</td>";
                 echo "<td>" . $row["apecl"] . "</td>";
@@ -501,8 +514,8 @@ if($sentencia){
                 echo "<td>" . $row["sitio"] . "</td>";
                 if($row["state"] == 0){ echo "<td style='color: red'> PENDIENTE</td>";}
                 else{ echo "<td style='color: green'>FINALIZADO</td>";};
-                echo "<td>" . $row["dia"] . "</td>";
-                echo "<td>" . $row["fere"] . "</td>";
+                echo "<td>" . $fechaHoraFormateadaInicio . "</td>";
+                echo "<td>" . $fechaHoraFormateadaFinal . "</td>";
                 echo "</tr>";
             }
         } else {
@@ -554,3 +567,18 @@ if($sentencia){
         });
     </script>
 <script>
+
+  <?php 
+  function formatearFechaHora($timestamp) {
+    $meses = array(
+        1 => 'enero', 2 => 'febrero', 3 => 'marzo', 4 => 'abril', 5 => 'mayo', 6 => 'junio',
+        7 => 'julio', 8 => 'agosto', 9 => 'septiembre', 10 => 'octubre', 11 => 'noviembre', 12 => 'diciembre'
+    );
+
+    $dia = date('d', $timestamp);
+    $mes = $meses[date('n', $timestamp)];
+    $anio = date('Y', $timestamp);
+    $hora = date('H:i:s', $timestamp);
+
+    return "$dia de $mes de $anio $hora";
+}?>
