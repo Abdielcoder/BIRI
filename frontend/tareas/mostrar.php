@@ -129,7 +129,7 @@
 
                   <?php 
                     if ($_SESSION['rol']= '1') {
-                      echo ' <p class="card-subtitle">Administrador</p>';  
+                      echo '<p class="card-subtitle">Administrador</p>';
                     } else {
                         echo '<p class="card-subtitle">Cliente</p>';
                     }

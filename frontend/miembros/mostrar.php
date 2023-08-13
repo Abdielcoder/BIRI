@@ -154,8 +154,9 @@
       -->
 
       <section class="home">
+        
 
-        <div class="card profile-card">
+        <!-- <div class="card profile-card">
           <div class="profile-card-wrapper">
 
             <figure class="card-avatar">
@@ -351,7 +352,7 @@
 
           </ul>
 
-        </div>
+        </div> -->
 
       </section>
       <!-- 

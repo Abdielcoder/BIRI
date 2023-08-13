@@ -411,7 +411,7 @@ if($sentencia){
                   </button>
                 </li>
                 </a>
-                <a href="../tareas/attend.php?id='.$d->idtarea.'">
+                <a href="attend.php?id='.$d->idtarea.'">
                 <li class="ctx-item">
                   <button class="ctx-menu-btn red icon-box">
                     <span class="material-symbols-rounded  icon" aria-hidden="true">gpp_maybe</span>
@@ -423,7 +423,7 @@ if($sentencia){
                 </ul>';
                 echo '<time class="card-date" datetime="2022-04-09">' . $d->dia . '</time> <h3 class="card-title">';
 
-                echo '<a href="../tareas/view.php?id=' . $d->idtarea . '">' . $d->nomcas . '</a></h3>';
+                echo ' <a href="attend.php?id='.$d->idtarea.'">' . $d->nomcas . '</a></h3>';
 
                 } elseif ($d->state ==1) {
                 //   echo '<li class="divider"></li>
@@ -443,6 +443,7 @@ if($sentencia){
               <?php 
                 if ($d->state ==0) {
                   echo '<div class="card-badge orange">Pendiente</div>';
+                  echo '<div class="card-badge green">' . $d->apecl . '</div>';
                 } elseif ($d->state ==1) {
                   // echo '<div class="card-badge green">Atendido</div>';
                 }
@@ -464,7 +465,8 @@ if($sentencia){
         </ul>
 
       </section>
-
+<div></div>
+<div></div>
       <table id="miTabla" class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
@@ -475,6 +477,7 @@ if($sentencia){
             <th class="text-center">Estado</th>
             <th class="text-center">Fecha Inicio</th>
             <th class="text-center">Fecha Fin</th>
+            <th class="text-center">Atender</th>
             <!-- <th class="text-center">Contraseña</th> -->
         </tr>
     </thead>
@@ -510,6 +513,15 @@ if($sentencia){
                 else{ echo "<td style='color: green'>FINALIZADO</td>";};
                 echo "<td>" . $row["dia"] . "</td>";
                 echo "<td>" . $row["fere"] . "</td>";
+                echo '<td><a href="attend.php?id='.$row["idtarea"].'">
+                <li class="ctx-item">
+                  <button class="ctx-menu-btn red icon-box">
+                    <span class="material-symbols-rounded  icon" aria-hidden="true">gpp_maybe</span>
+
+                    <span class="ctx-menu-text">Atender</span>
+                  </button>
+                </li>
+                </a></td>';
                 echo "</tr>";
             }
         } else {
