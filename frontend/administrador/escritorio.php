@@ -309,7 +309,7 @@
 
           <data class="card-price" value="<?php echo  $total; ?>"><?php echo  $total; ?></data>
 
-          <p class="card-text">Last Week</p>
+          <p class="card-text">Total Incidencias</p>
 
           <div class="divider card-divider"></div>
 
@@ -521,7 +521,7 @@ if($sentencia){
               if($fechaHoraFormateadaFinal == '01 de enero de 1970 01:00:00'){
                 $fechaHoraFormateadaFinal= '';
                 $tiempoTranscurrido =  "<td></td> ";
-                $atenderIncidencia = '<td><a href="../tareas/attend.php?id='.$d->idtarea.'">
+                $atenderIncidencia = '<td><a href="../tareas/attend.php?id='.$row['idtarea'].'">
                 <li class="ctx-item">
                   <button class="ctx-menu-btn red icon-box">
                     <span class="material-symbols-rounded  icon" aria-hidden="true">gpp_maybe</span>

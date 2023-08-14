@@ -320,18 +320,19 @@
             </div>
             <div class="modal-body">
             <form action="insertar_tarea.php" method="POST">
-    <label for="reporta">Nombre1:</label>
-    <input type="text" class="form-control" id="reporta" name="reporta" value="<?php echo $_SESSION['nombre']; ?>">
+    <label for="reporta">Nombre:</label>
+    <input type="text" class="form-control" id="reporta" name="reporta" value="<?php echo $_SESSION['nombre']; ?>" readonly>
     
     <div class="form-group">
         <label for="atiende">Asignación:</label>
         <select class="form-control" id="atiende" name="atiende">
-            <option value="Sofia Gallardo">Sofia Gallardo</option>
-            <option value="Rosario Banda">Rosario Banda</option>
-            <option value="Abdiel Carrasco">Abdiel Carrasco</option>
+           <option value="Abdiel Carrasco">Abdiel Carrasco</option>
             <option value="Berenice Hernades">Berenice Hernades</option>
             <option value="Daniel Bravo">Daniel Bravo</option>
             <option value="Jesus de Luna">Jesus de Luna</option>
+            <option value="Rosario Banda">Rosario Banda</option>
+            <option value="Rosario Banda">Myriam -</option>
+            <option value="Sofia Gallardo">Sofia Gallardo</option>
         </select>
     </div>
     
@@ -342,6 +343,7 @@
             <option value="Comercial">Comercial</option>
             <option value="Desarrollo">Desarrollo</option>
             <option value="Recursos Humanos">Recursos Humanos</option>
+            <option value="Recursos Humanos">Mantenimiento</option>
             <option value="Servicio agentes">Servicio agentes</option>
             <option value="Servicio asegurados">Servicio asegurados</option>
         </select>

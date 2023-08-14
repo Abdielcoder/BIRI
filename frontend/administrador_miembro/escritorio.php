@@ -330,9 +330,9 @@ $id=$_SESSION['id'];
     $sql = "SELECT COUNT(*) total FROM tarea WHERE state = 1";
     $result = $connect->query($sql); //$pdo sería el objeto conexión
     $total = $result->fetchColumn();
-
+    $decimalPendientes = number_format($porcentajePendiente,2);
 ?>
-                <data class="revenue-item-data" value="<?php echo  $porcentajePendiente; ?>"><?php echo  $porcentajePendiente; ?>%</data>
+                <data class="revenue-item-data" value="<?php echo  $decimalPendientes; ?>"><?php echo  $decimalPendientes; ?>%</data>
 
                 <p class="revenue-item-text">Atendidas</p>
               </div>
@@ -348,9 +348,9 @@ $id=$_SESSION['id'];
     $sql = "SELECT COUNT(*) total FROM tarea WHERE state = 0";
     $result = $connect->query($sql); //$pdo sería el objeto conexión
     $total = $result->fetchColumn();
-
+    $decimalAtencion = number_format($porcentajeAtencion,2)
 ?>
-                <data class="revenue-item-data" value="<?php echo  $porcentajeAtencion; ?>"><?php echo  $porcentajeAtencion; ?>%</data>
+                <data class="revenue-item-data" value="<?php echo  $decimalAtencion; ?>"><?php echo  $decimalAtencion; ?>%</data>
 
                 <p class="revenue-item-text">Pendientes</p>
               </div>
@@ -379,7 +379,8 @@ $id=$_SESSION['id'];
 
         <ul class="project-list">
         <?php 
-$sentencia = $connect->prepare("SELECT * FROM tarea ORDER BY idtarea DESC;");
+        $nombre = $_SESSION['nombre'];
+$sentencia = $connect->prepare("SELECT * FROM tarea where nomcl='$nombre'  ORDER BY idtarea DESC;");
  $sentencia->execute();
 $data =  array();
 if($sentencia){
@@ -392,7 +393,7 @@ if($sentencia){
       <?php foreach($data as $d):?>
         
          <?php 
-                if ($d->state ==0) {
+                if ($d->state ==0 and $d->nomcl==$nombre) {
                   echo '
                   <li class="project-item">
                   <div class="card project-card">
@@ -442,8 +443,8 @@ if($sentencia){
              
               <?php 
                 if ($d->state ==0) {
-                  echo '<div class="card-badge orange">Pendiente</div>';
-                  echo '<div class="card-badge green">' . $d->apecl . '</div>';
+                  echo '<div class="card-badge red">Estado: Pendiente</div>';
+                  echo '<div class="card-badge gray">Asignado: ' . $d->apecl . '</div>';
                 } elseif ($d->state ==1) {
                   // echo '<div class="card-badge green">Atendido</div>';
                 }
@@ -477,6 +478,7 @@ if($sentencia){
             <th class="text-center">Estado</th>
             <th class="text-center">Fecha Inicio</th>
             <th class="text-center">Fecha Fin</th>
+            <th class="text-center">Tiempo atención</th>
             <th class="text-center">Atender</th>
             <!-- <th class="text-center">Contraseña</th> -->
         </tr>
@@ -498,22 +500,43 @@ if($sentencia){
         }
 
         // Consulta para obtener los datos de la tabla "tareas"
-        $sql = "SELECT * FROM tarea";
+        $sql = "SELECT * FROM tarea where nomcl='$nombre'";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
             // Mostrar datos de cada fila
             while ($row = $result->fetch_assoc()) {
-                echo "<tr>";
-                echo "<td>" . $row["nomcl"] . "</td>";
-                echo "<td>" . $row["apecl"] . "</td>";
-                echo "<td>" . $row["nomcas"] . "</td>";
-                echo "<td>" . $row["sitio"] . "</td>";
-                if($row["state"] == 0){ echo "<td style='color: red'> PENDIENTE</td>";}
-                else{ echo "<td style='color: green'>FINALIZADO</td>";};
-                echo "<td>" . $row["dia"] . "</td>";
-                echo "<td>" . $row["fere"] . "</td>";
-                echo '<td><a href="attend.php?id='.$row["idtarea"].'">
+              $fechaIncio = $row["dia"]; // Tu fecha y hora en formato año-mes-día hora:minuto:segundo
+              $timestampInicio = strtotime($fechaIncio);
+              $fechaHoraFormateadaInicio = formatearFechaHora($timestampInicio);
+            
+              $fechaFin = $row["fere"]; // Tu fecha y hora en formato año-mes-día hora:minuto:segundo
+              $timestampFin = strtotime($fechaFin);
+              $fechaHoraFormateadaFinal = formatearFechaHora($timestampFin);
+            
+               
+              $timestamp1 = strtotime($fechaIncio);
+              $timestamp2 = strtotime($fechaFin);
+              
+              // Calcula la diferencia en segundos
+              $diferenciaSegundos = abs($timestamp2 - $timestamp1);
+
+              // Calcula los días
+              $dias = floor($diferenciaSegundos / (60 * 60 * 24));
+
+              // Calcula las horas
+              $horas = floor(($diferenciaSegundos - ($dias * 60 * 60 * 24)) / (60 * 60));
+
+              // Calcula los minutos
+              $minutos = floor(($diferenciaSegundos - ($dias * 60 * 60 * 24) - ($horas * 60 * 60)) / 60);
+
+              // Calcula los segundos
+              $segundos = $diferenciaSegundos - ($dias * 60 * 60 * 24) - ($horas * 60 * 60) - ($minutos * 60);
+
+              if($fechaHoraFormateadaFinal == '01 de enero de 1970 01:00:00'){
+                $fechaHoraFormateadaFinal= '';
+                $tiempoTranscurrido =  "<td></td> ";
+                $atenderIncidencia = '<td><a href="attend.php?id='.$row['idtarea'].'">
                 <li class="ctx-item">
                   <button class="ctx-menu-btn red icon-box">
                     <span class="material-symbols-rounded  icon" aria-hidden="true">gpp_maybe</span>
@@ -522,12 +545,46 @@ if($sentencia){
                   </button>
                 </li>
                 </a></td>';
+                }else{
+                  $atenderIncidencia = '<td style="text-aling:center;padding-left:30px">
+                <li class="ctx-item">
+                  <button class="ctx-menu-btn yellow icon-box">
+                    <span style="font-size:37px;text-aling:center;color:green;" class="material-symbols-rounded  icon" aria-hidden="true">done</span>
+
+                    
+                  </button>
+                </li>
+                </td>';
+                  if($horas<2){
+                    $tiempoTranscurrido = "<td style='background-color:green;color:white'>Días: $dias, Horas: $horas, Minutos: $minutos</td>";
+
+                  }
+                  if($horas==3){
+                    $tiempoTranscurrido = "<td style='background-color:yellow;color:black'>Días: $dias, Horas: $horas, Minutos: $minutos</td>";
+
+                  }
+                  if($horas>3){
+                    $tiempoTranscurrido = "<td style='background-color:red;color:white'>Días: $dias, Horas: $horas, Minutos: $minutos</td>";
+
+                  }
+
+                }
+                echo "<tr>";
+                echo "<td>" . $row["nomcl"] . "</td>";
+                echo "<td>" . $row["apecl"] . "</td>";
+                echo "<td>" . $row["nomcas"] . "</td>";
+                echo "<td>" . $row["sitio"] . "</td>";
+                if($row["state"] == 0){ echo "<td style='color: red'> PENDIENTE</td>";}
+                else{ echo "<td style='color: green'>FINALIZADO</td>";};
+                echo "<td>" . $fechaHoraFormateadaInicio . "</td>";
+                echo "<td>" . $fechaHoraFormateadaFinal . "</td>";
+                echo $tiempoTranscurrido;
+                echo $atenderIncidencia;
                 echo "</tr>";
             }
         } else {
             echo "<tr><td colspan='8'>No hay tareas disponibles.</td></tr>";
         }
-
         // Cerrar la conexión
         $conn->close();
         ?>
@@ -568,3 +625,18 @@ if($sentencia){
         });
     </script>
 <script>
+
+<?php 
+  function formatearFechaHora($timestamp) {
+    $meses = array(
+        1 => 'enero', 2 => 'febrero', 3 => 'marzo', 4 => 'abril', 5 => 'mayo', 6 => 'junio',
+        7 => 'julio', 8 => 'agosto', 9 => 'septiembre', 10 => 'octubre', 11 => 'noviembre', 12 => 'diciembre'
+    );
+
+    $dia = date('d', $timestamp);
+    $mes = $meses[date('n', $timestamp)];
+    $anio = date('Y', $timestamp);
+    $hora = date('H:i:s', $timestamp);
+
+    return "$dia de $mes de $anio $hora";
+}?>
