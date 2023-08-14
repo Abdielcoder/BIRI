@@ -87,13 +87,13 @@
               </a>
             </li>
 
-            <li>
+            <!-- <li>
               <a href="../configuracion/mostrar.php" class="navbar-link icon-box">
                 <span class="material-symbols-rounded  icon">settings</span>
 
                 <span>Configuración</span>
               </a>
-            </li>
+            </li> -->
 
             <li>
               <a href="../salir.php" class="navbar-link icon-box">
@@ -407,7 +407,11 @@ if($sentencia){
                 </li>
                 </a>
                 </ul>';
-                echo '<time class="card-date" datetime="2022-04-09">' . $d->dia . '</time> <h3 class="card-title">';
+                $fechaIncioCard = $d->dia; // Tu fecha y hora en formato año-mes-día hora:minuto:segundo
+              $timestampInicioCard = strtotime($fechaIncioCard);
+              $fechaHoraFormateadaInicioCard = formatearFechaHora($timestampInicioCard);
+            
+                echo '<time class="card-date" datetime="2022-04-09">' . $fechaHoraFormateadaInicioCard . '</time> <h3 class="card-title">';
 
                 echo '<a href="../tareas/attend.php?id=' . $d->idtarea . '">' . $d->nomcas . '</a></h3>';
 

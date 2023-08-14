@@ -98,13 +98,13 @@
               </a>
             </li>
 
-            <li>
+            <!-- <li>
               <a href="../configuracion/mostrar.php" class="navbar-link icon-box">
                 <span class="material-symbols-rounded  icon">settings</span>
 
                 <span>Configuración</span>
               </a>
-            </li>
+            </li> -->
 
             <li>
               <a href="../salir.php" class="navbar-link icon-box">

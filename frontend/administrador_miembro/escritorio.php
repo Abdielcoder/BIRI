@@ -422,7 +422,11 @@ if($sentencia){
                 </li>
                 </a>
                 </ul>';
-                echo '<time class="card-date" datetime="2022-04-09">' . $d->dia . '</time> <h3 class="card-title">';
+                $fechaIncioCard = $d->dia; // Tu fecha y hora en formato año-mes-día hora:minuto:segundo
+              $timestampInicioCard = strtotime($fechaIncioCard);
+              $fechaHoraFormateadaInicioCard = formatearFechaHora($timestampInicioCard);
+            
+                echo '<time  class="card-date" datetime="2022-04-09">' . $fechaHoraFormateadaInicioCard . '</time> <h3 class="card-title">';
 
                 echo ' <a href="attend.php?id='.$d->idtarea.'">' . $d->nomcas . '</a></h3>';
 
